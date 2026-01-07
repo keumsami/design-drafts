@@ -1124,7 +1124,7 @@ $(window).scroll(function() {
 	    //$(".sec-01 div:nth-child(3)").css("opacity", op);
 	}); 	
 
-// PC hero logo fade-out on scroll (no rotation)
+// PC hero logo rotateY (3 turns across full scroll)
 (function() {
     var $heroLogoWrap = $('#pc-version .sec-01 div:nth-child(1)');
     var $rotator = $heroLogoWrap.find('.pc-logo-rotator');
@@ -1152,7 +1152,12 @@ $(window).scroll(function() {
         $heroLogoWrap.css('opacity', opacity);
         $heroLogoWrap.css('visibility', opacity <= 0.01 ? 'hidden' : 'visible');
 
-        $rotator.css('transform', 'none');
+        var rotationEnd = fadeEnd;
+        var progress = rotationEnd > 0 ? scrollTop / rotationEnd : 0;
+        progress = Math.max(0, Math.min(1, progress));
+
+        var deg = progress * 720;
+        $rotator.css('transform', 'perspective(1000px) rotateY(' + deg + 'deg)');
     }
 
     function requestTick() {
